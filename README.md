@@ -58,5 +58,6 @@ Builds complete, deployment-ready websites in Astro that rank on Google. The ski
 - `references/tailwind-components.md` — Tailwind component patterns (nav, forms, FAQ, admin)
 - `references/content-collections.md` — Astro content collection schemas and queries
 - `references/taste-skill.md` — Premium frontend design rules (layout, typography, color, motion)
+- `references/image-generation.md` — Gemini-powered stock image generation (optional, needs GEMINI_API_KEY)
 - `references/turso-setup.md` — Database, API routes, and admin dashboard
 - `references/deployment.md` — Vercel/Netlify deployment guides

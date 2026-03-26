@@ -35,9 +35,10 @@ Every project follows this sequence. Don't skip steps.
 
 ### Phase 3: Build Every Page
 1. Read `references/taste-skill.md` for design rules
-2. Create each page with real, researched content
-3. Full SEO on every page — meta tags, OG tags, structured data, semantic HTML
-4. Wire up interactive components (forms, navigation, etc.)
+2. If user wants generated images, read `references/image-generation.md` and generate images for each page
+3. Create each page with real, researched content
+4. Full SEO on every page — meta tags, OG tags, structured data, semantic HTML
+5. Wire up interactive components (forms, navigation, etc.)
 
 ### Phase 4: Content Collections & Database
 1. Configure Astro content collections for blog posts, services, etc.
@@ -61,7 +62,8 @@ Before writing any code, understand the project:
 2. **What's the site's primary goal?** — Lead generation, e-commerce, portfolio, blog, SaaS landing page
 3. **How many pages do you want?** — Small (5-10 pages) or content-heavy (15-30+ pages with blog)
 4. **Do you need a database?** — For storing form submissions, bookings, user data, etc. If yes, set up Turso.
-5. **Do you have a domain?** — Needed for sitemap/canonical URLs. Use a placeholder if not yet purchased.
+5. **Do you want generated images?** — "I can generate custom stock images for your site using Gemini. If you'd like this, add your `GEMINI_API_KEY` to the `.env` file."
+6. **Do you have a domain?** — Needed for sitemap/canonical URLs. Use a placeholder if not yet purchased.
 6. **Any design preferences?** — Colors, style, existing branding
 
 ### Research the Niche
@@ -294,3 +296,4 @@ Audit every page against `references/seo-checklist.md`:
 - **Research before building.** The niche research phase determines SEO quality.
 - **Real content wins.** Write substantive, helpful content. No lorem ipsum.
 - **Premium design always.** Follow the taste-skill rules. Every page should look like a $10k agency build, not generic AI output.
+- **Image generation is optional.** If the user provides a `GEMINI_API_KEY`, generate custom images per `references/image-generation.md`. If not, use styled placeholder divs with proper alt text.
