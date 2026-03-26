@@ -13,10 +13,13 @@ npx astro-builder-skill claude-code
 # Codex CLI
 npx astro-builder-skill codex
 
-# Antigravity
+# Antigravity (workspace-local, creates .agents/skills/ in current dir)
 npx astro-builder-skill antigravity
 
-# All three
+# Antigravity (global, all workspaces)
+npx astro-builder-skill antigravity-global
+
+# All targets
 npx astro-builder-skill all
 ```
 
@@ -44,7 +47,8 @@ Builds complete, deployment-ready websites in Astro that rank on Google. The ski
 |---|---|
 | `claude-code` | `~/.claude/skills/astro-builder/` |
 | `codex` | `~/.codex/skills/astro-builder/` |
-| `antigravity` | `~/.gemini/antigravity/skills/astro-builder/` |
+| `antigravity` | `.agents/skills/astro-builder/` (workspace-local) |
+| `antigravity-global` | `~/.gemini/antigravity/skills/astro-builder/` |
 
 ## Files included
 

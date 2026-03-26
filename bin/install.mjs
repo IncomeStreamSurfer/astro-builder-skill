@@ -10,11 +10,15 @@ const __dirname = dirname(__filename);
 const SKILL_SRC = join(__dirname, "..", "skill");
 const SKILL_NAME = "astro-builder";
 const home = homedir();
+const cwd = process.cwd();
 
+// Antigravity workspace-local: .agents/skills/ in current directory
+// Antigravity global: ~/.gemini/antigravity/skills/
 const TARGETS = {
   "claude-code": join(home, ".claude", "skills", SKILL_NAME),
   codex: join(home, ".codex", "skills", SKILL_NAME),
-  antigravity: join(home, ".gemini", "antigravity", "skills", SKILL_NAME),
+  antigravity: join(cwd, ".agents", "skills", SKILL_NAME),
+  "antigravity-global": join(home, ".gemini", "antigravity", "skills", SKILL_NAME),
 };
 
 const arg = process.argv[2];
@@ -27,13 +31,15 @@ function printUsage() {
     npx astro-builder-skill <target>
 
   Targets:
-    claude-code    → ~/.claude/skills/astro-builder
-    codex          → ~/.codex/skills/astro-builder
-    antigravity    → ~/.gemini/antigravity/skills/astro-builder
-    all            → Install to all three
+    claude-code          → ~/.claude/skills/astro-builder
+    codex                → ~/.codex/skills/astro-builder
+    antigravity          → .agents/skills/astro-builder (workspace-local)
+    antigravity-global   → ~/.gemini/antigravity/skills/astro-builder
+    all                  → Install to all (antigravity uses workspace-local)
 
   Examples:
     npx astro-builder-skill claude-code
+    npx astro-builder-skill antigravity
     npx astro-builder-skill all
 `);
 }
