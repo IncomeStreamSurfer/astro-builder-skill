@@ -134,8 +134,8 @@ src/
 │   ├── Footer.astro
 │   ├── Navigation.tsx    # React island
 │   └── ContactForm.tsx   # React island
+├── content.config.ts     # Content collection schemas (NOT in content/)
 ├── content/
-│   ├── config.ts         # Content collection schemas
 │   ├── blog/
 │   ├── services/
 │   └── testimonials/
@@ -216,7 +216,9 @@ Read `references/tailwind-components.md` for component patterns (nav, forms, FAQ
 
 Read `references/content-collections.md` for the full setup. Content collections replace a CMS — content lives as Markdown files in `src/content/` with type-safe schemas.
 
-Define schemas in `src/content/config.ts`:
+**IMPORTANT:** Define schemas in `src/content.config.ts` (NOT `src/content/config.ts` — the old path throws `LegacyContentConfigError` in Astro v5+). Every collection must have a `loader` (use `glob()` from `astro/loaders`).
+
+Define schemas in `src/content.config.ts`:
 - **Blog posts:** title, description, pubDate, image, tags, author, draft
 - **Services:** title, description, icon, order, featured
 - **Testimonials:** name, role, quote, rating
@@ -265,14 +267,25 @@ export const GET: APIRoute = ({ site }) => {
 
 Read `references/deployment.md` for Vercel/Netlify configs.
 
-For sites with API routes or Turso, use hybrid rendering:
+For sites with API routes or Turso, add an adapter but keep the default static output. Mark individual server routes with `export const prerender = false;`:
 ```javascript
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'hybrid',
+  // Do NOT use output: 'hybrid' — removed in Astro v5.
+  // Default is 'static'. Server-rendered routes opt out individually.
   adapter: vercel(),
 });
+```
+
+In each API route or server-rendered page:
+```typescript
+// src/pages/api/contact.ts
+export const prerender = false; // This route runs on the server
+
+export const POST: APIRoute = async ({ request }) => {
+  // ...
+};
 ```
 
 ### Final SEO Audit
@@ -290,7 +303,7 @@ Audit every page against `references/seo-checklist.md`:
 
 ## Important Notes
 
-- **Use `output: 'hybrid'`** when the site has API routes or forms. Pure static otherwise.
+- **Do NOT use `output: 'hybrid'`** — it was removed in Astro v5. Use the default `'static'` output. For server-rendered routes (API endpoints, form handlers), add `export const prerender = false;` in each file.
 - **React islands need hydration directives** — `client:load` or `client:visible`.
 - **Content collections are file-based.** Blog posts and services live as `.md` files in `src/content/`. Turso is for dynamic data (form submissions) only.
 - **Research before building.** The niche research phase determines SEO quality.

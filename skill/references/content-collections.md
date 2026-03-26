@@ -13,29 +13,33 @@
 
 Content collections live in `src/content/`. Each subfolder is a collection.
 
+**IMPORTANT (Astro v5+):** The config file MUST be at `src/content.config.ts` (NOT `src/content/config.ts`). The old `src/content/config.ts` location is legacy and will throw `LegacyContentConfigError`. Every collection MUST have a `loader` defined.
+
 ```
-src/content/
-├── config.ts          # Collection schemas
-├── blog/
-│   ├── first-post.md
-│   └── second-post.md
-├── services/
-│   ├── emergency-plumbing.md
-│   └── boiler-repair.md
-└── testimonials/
-    ├── john-murphy.md
-    └── sarah-walsh.md
+src/
+├── content.config.ts    # Collection schemas (NOT in content/ folder!)
+├── content/
+│   ├── blog/
+│   │   ├── first-post.md
+│   │   └── second-post.md
+│   ├── services/
+│   │   ├── emergency-plumbing.md
+│   │   └── boiler-repair.md
+│   └── testimonials/
+│       ├── john-murphy.json
+│       └── sarah-walsh.json
 ```
 
 ## Defining Schemas
 
-Create `src/content/config.ts`:
+Create `src/content.config.ts` (in the `src/` root, NOT inside `src/content/`):
 
 ```typescript
 import { z, defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string().max(160),
@@ -50,7 +54,7 @@ const blogCollection = defineCollection({
 });
 
 const servicesCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/services' }),
   schema: z.object({
     title: z.string(),
     description: z.string().max(160),
@@ -61,7 +65,7 @@ const servicesCollection = defineCollection({
 });
 
 const testimonialsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/testimonials' }),
   schema: z.object({
     name: z.string(),
     role: z.string(),

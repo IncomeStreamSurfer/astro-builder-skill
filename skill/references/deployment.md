@@ -20,7 +20,8 @@ npx astro add vercel
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'hybrid',
+  // Do NOT use output: 'hybrid' — removed in Astro v5.
+  // Default 'static' works. For server routes, add: export const prerender = false;
   adapter: vercel({
     webAnalytics: { enabled: true }, // Free Vercel analytics
   }),
@@ -71,7 +72,7 @@ npx astro add netlify
 import netlify from '@astrojs/netlify';
 
 export default defineConfig({
-  output: 'hybrid',
+  // Do NOT use output: 'hybrid' — removed in Astro v5.
   adapter: netlify(),
   site: 'https://yourdomain.com',
 });
@@ -157,7 +158,7 @@ Run through this before every deployment:
 
 ### Functionality
 - [ ] Contact form submits correctly
-- [ ] Keystatic admin works at `/keystatic`
+- [ ] Content collections render correctly (blog, services, testimonials)
 - [ ] Admin dashboard loads and displays data (if applicable)
 - [ ] All internal links work
 - [ ] Mobile navigation works

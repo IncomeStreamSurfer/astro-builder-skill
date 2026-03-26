@@ -51,8 +51,10 @@ import vercel from '@astrojs/vercel'; // or netlify
 
 export default defineConfig({
   site: 'https://yourdomain.com', // REQUIRED for sitemap & canonical URLs
-  output: 'hybrid', // Static by default, SSR for API routes if needed
-  adapter: vercel(), // or netlify()
+  // NOTE: Do NOT use output: 'hybrid' — it was removed in Astro v5.
+  // Use output: 'static' (the default). For server-rendered routes, use
+  // export const prerender = false; in individual pages/API routes.
+  adapter: vercel(), // or netlify() — only needed if you have server-rendered routes
   integrations: [
     react(),
     tailwind({ applyBaseStyles: false }),
@@ -174,13 +176,16 @@ Create `src/styles/globals.css`:
 
 ## Content Collections
 
-Create `src/content/config.ts`:
+**IMPORTANT:** Config file goes at `src/content.config.ts` (NOT `src/content/config.ts`). Every collection needs a `loader`. See `references/content-collections.md` for full schemas.
+
+Create `src/content.config.ts`:
 
 ```typescript
 import { z, defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
