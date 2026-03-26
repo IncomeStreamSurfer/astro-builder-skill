@@ -14,7 +14,7 @@ const home = homedir();
 const TARGETS = {
   "claude-code": join(home, ".claude", "skills", SKILL_NAME),
   codex: join(home, ".codex", "skills", SKILL_NAME),
-  antigravity: join(home, ".gemini", "skills", SKILL_NAME),
+  antigravity: join(home, ".gemini", "antigravity", "skills", SKILL_NAME),
 };
 
 const arg = process.argv[2];
@@ -29,7 +29,7 @@ function printUsage() {
   Targets:
     claude-code    → ~/.claude/skills/astro-builder
     codex          → ~/.codex/skills/astro-builder
-    antigravity    → ~/.gemini/skills/astro-builder
+    antigravity    → ~/.gemini/antigravity/skills/astro-builder
     all            → Install to all three
 
   Examples:

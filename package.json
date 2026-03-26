@@ -1,6 +1,6 @@
 {
   "name": "astro-builder-skill",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "SEO-optimized Astro website builder skill for Claude Code, Codex CLI, and Antigravity",
   "bin": {
     "astro-builder-skill": "./bin/install.mjs"

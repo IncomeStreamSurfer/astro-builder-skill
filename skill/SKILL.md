@@ -1,23 +1,25 @@
 ---
 name: astro-builder
-description: "Build complete, SEO-optimized websites using Astro with shadcn/ui, Keystatic CMS, and optional Turso database. Use this skill whenever the user wants to create a website, build a site that ranks on Google, start an Astro project, make a landing page, build a business website, create a blog, or any web project where SEO matters. Also trigger when the user mentions Astro, Keystatic, or wants a site built with modern web tech. Even if they just say 'build me a website' or 'I need a site for my business' — this skill handles it."
+description: "Build complete, SEO-optimized websites using Astro with Tailwind CSS, content collections, and optional Turso database. Use this skill whenever the user wants to create a website, build a site that ranks on Google, start an Astro project, make a landing page, build a business website, create a blog, or any web project where SEO matters. Also trigger when the user mentions Astro or wants a site built with modern web tech. Even if they just say 'build me a website' or 'I need a site for my business' — this skill handles it."
 ---
 
 # Astro SEO Website Builder
 
-You build complete, deployment-ready websites in Astro that are engineered to rank on Google. Every site you create ships with proper meta tags, structured data, semantic HTML, optimized images, sitemaps, and real researched content — not placeholder text.
+You build complete, deployment-ready websites in Astro that are engineered to rank on Google. Every site ships with proper meta tags, structured data, semantic HTML, optimized images, sitemaps, and real researched content — not placeholder text.
 
-## Your Tech Stack
+Every frontend you produce must be premium and non-generic. Read `references/taste-skill.md` before writing any UI code — it contains the design rules that prevent generic "AI slop" output.
+
+## Tech Stack
 
 - **Astro** — Static-first framework, zero JS by default, perfect for SEO
-- **React + shadcn/ui** — Interactive components via Astro islands
-- **Keystatic** — File-based CMS with admin UI at `/keystatic`
-- **Turso + Drizzle** — Edge SQLite database (optional, for forms/data)
-- **Tailwind CSS** — Styling via shadcn's design system
+- **React** — Interactive components via Astro islands (forms, nav, animations)
+- **Tailwind CSS** — All styling. No shadcn defaults — customize everything per the taste-skill rules
+- **Astro Content Collections** — Type-safe Markdown/MDX content for blog posts, services, testimonials
+- **Turso + Drizzle** — Edge SQLite database (optional, for forms/dynamic data)
 
 ## Workflow Overview
 
-Every project follows this sequence. Don't skip steps — each one matters for the final result.
+Every project follows this sequence. Don't skip steps.
 
 ### Phase 1: Discovery & Research
 1. Ask the user about their niche, business, and goals
@@ -28,21 +30,22 @@ Every project follows this sequence. Don't skip steps — each one matters for t
 
 ### Phase 2: Project Setup
 1. Scaffold the Astro project
-2. Install and configure all integrations
+2. Install and configure integrations (React, Tailwind, sitemap)
 3. Set up the base layout, SEO components, and design system
 
 ### Phase 3: Build Every Page
-1. Create each page with real, researched content
-2. Full SEO on every page — meta tags, OG tags, structured data, semantic HTML
-3. Wire up interactive components (forms, navigation, etc.)
+1. Read `references/taste-skill.md` for design rules
+2. Create each page with real, researched content
+3. Full SEO on every page — meta tags, OG tags, structured data, semantic HTML
+4. Wire up interactive components (forms, navigation, etc.)
 
-### Phase 4: CMS & Database
-1. Configure Keystatic with content collections matching the site structure
+### Phase 4: Content Collections & Database
+1. Configure Astro content collections for blog posts, services, etc.
 2. If database requested: set up Turso, create schemas, build API routes
 3. Build admin dashboard for database data if applicable
 
 ### Phase 5: Deployment Prep
-1. Generate sitemap, robots.txt, and manifest
+1. Generate sitemap, robots.txt
 2. Configure deployment (Vercel/Netlify)
 3. Final SEO audit of every page
 
@@ -52,23 +55,23 @@ Every project follows this sequence. Don't skip steps — each one matters for t
 
 ### Ask the User
 
-Before writing any code, you need to understand the project. Ask these questions (use AskUserQuestion if available):
+Before writing any code, understand the project:
 
 1. **What's your niche/business?** — "I'm a plumber in Dublin" or "I sell handmade candles online"
 2. **What's the site's primary goal?** — Lead generation, e-commerce, portfolio, blog, SaaS landing page
 3. **How many pages do you want?** — Small (5-10 pages) or content-heavy (15-30+ pages with blog)
-4. **Do you need a database?** — For storing form submissions, bookings, user data, etc. If yes, you'll set up Turso.
+4. **Do you need a database?** — For storing form submissions, bookings, user data, etc. If yes, set up Turso.
 5. **Do you have a domain?** — Needed for sitemap/canonical URLs. Use a placeholder if not yet purchased.
 6. **Any design preferences?** — Colors, style, existing branding
 
 ### Research the Niche
 
-Once you know the niche, do real research. Use web search to find:
+Use web search to find:
 
-- **What's currently ranking** for the target keywords — look at the top 5-10 results
+- **What's currently ranking** for the target keywords — top 5-10 results
 - **Content gaps** — what questions aren't being answered well
 - **Long-tail keywords** — specific phrases with less competition
-- **Local SEO signals** if it's a local business (Google Business categories, local schema)
+- **Local SEO signals** if it's a local business
 - **Competitor site structures** — what pages they have, what they're missing
 
 ### Propose the Site Structure
@@ -99,7 +102,7 @@ Get the user's sign-off before proceeding.
 
 ## Phase 2: Project Setup
 
-Read `references/astro-setup.md` for the exact commands and configuration. The setup sequence is:
+Read `references/astro-setup.md` for exact commands and configuration.
 
 ### 1. Create the Project
 ```bash
@@ -107,43 +110,37 @@ npm create astro@latest [project-name] -- --template minimal --install --no-git
 cd [project-name]
 ```
 
-### 2. Install Core Integrations
+### 2. Install Integrations
 ```bash
 npx astro add react tailwind sitemap
-npm install @keystatic/core @keystatic/astro
 npm install @astrojs/check typescript
+npm install @fontsource/geist-sans @fontsource/geist-mono  # Premium fonts per taste-skill
 ```
 
-### 3. Install shadcn/ui
-Read `references/shadcn-setup.md` for the full setup. Key steps:
-- Configure tsconfig.json path aliases
-- Run `npx shadcn@latest init`
-- Add components as needed: `npx shadcn@latest add button card form input textarea`
-
-### 4. If Database Requested
+### 3. If Database Requested
 Read `references/turso-setup.md` for full Turso configuration.
 ```bash
 npm install @libsql/client drizzle-orm
 ```
 
-### 5. Project Structure
-After setup, your project should look like:
+### 4. Project Structure
 ```
 src/
 ├── components/
-│   ├── ui/          # shadcn components
 │   ├── SEOHead.astro
 │   ├── Header.astro
 │   ├── Footer.astro
 │   ├── Navigation.tsx    # React island
 │   └── ContactForm.tsx   # React island
 ├── content/
-│   ├── config.ts
-│   └── blog/
+│   ├── config.ts         # Content collection schemas
+│   ├── blog/
+│   ├── services/
+│   └── testimonials/
 ├── layouts/
 │   └── BaseLayout.astro
 ├── lib/
-│   ├── turso.ts     # If database
+│   ├── turso.ts          # If database
 │   └── utils.ts
 ├── pages/
 │   ├── index.astro
@@ -152,92 +149,93 @@ src/
 │   ├── blog/
 │   │   ├── index.astro
 │   │   └── [...slug].astro
-│   ├── api/         # API routes
-│   └── keystatic/
-│       └── [...params].ts
+│   └── api/              # API routes (if database)
 ├── styles/
 │   └── globals.css
 └── middleware.ts
-keystatic.config.ts      # At project root
 astro.config.mjs
 ```
 
 ---
 
-## Phase 3: Build Every Page — The SEO Engine
+## Phase 3: Build Every Page — Design + SEO
 
-This is where the skill earns its keep. Every single page must be fully SEO-optimized. Read `references/seo-checklist.md` for the complete checklist you apply to every page.
+Before writing any page, read both:
+- `references/seo-checklist.md` — SEO rules for every page
+- `references/taste-skill.md` — Design rules to prevent generic output
 
 ### The SEOHead Component
 
-Create `src/components/SEOHead.astro` — this goes in the `<head>` of every page. It handles:
-- Title tag (unique per page, includes primary keyword, under 60 chars)
-- Meta description (unique, includes CTA, under 160 chars)
+Create `src/components/SEOHead.astro` — goes in `<head>` of every page. Handles:
+- Title tag (unique per page, primary keyword, under 60 chars)
+- Meta description (unique, CTA, under 160 chars)
 - Canonical URL
-- Open Graph tags (title, description, image, type, url)
+- Open Graph tags
 - Twitter Card tags
-- Article metadata (author, publish date, tags) for blog posts
-- JSON-LD structured data appropriate to the page type
+- JSON-LD structured data
 
-Read `references/seo-checklist.md` for the exact component code and usage patterns.
+See `references/seo-checklist.md` for the exact component code.
 
 ### Content Writing Rules
 
-When writing page content, follow these principles:
+- **Write for humans first, search engines second.**
+- **Every page targets a specific keyword cluster.** Primary keyword in title, H1, first paragraph, meta description, URL slug.
+- **Proper heading hierarchy.** One H1. H2s for sections. H3s for subsections. Never skip levels.
+- **Internal linking.** Every page links to 2-3+ other pages. Descriptive anchor text.
+- **Image alt text.** Every image gets descriptive alt text with natural keywords.
+- **Content length.** Service pages: 800-1500 words. Blog posts: 1500-3000 words. Home: 500-1000 words.
+- **Schema markup.** Every page gets appropriate JSON-LD.
 
-- **Write for humans first, search engines second.** Google rewards content that genuinely helps people.
-- **Every page targets a specific keyword cluster.** The primary keyword appears in the title, H1, first paragraph, meta description, and URL slug. Secondary keywords appear naturally throughout.
-- **Use proper heading hierarchy.** One H1 per page. H2s for major sections. H3s for subsections. Never skip levels.
-- **Internal linking.** Every page links to at least 2-3 other pages on the site. Use descriptive anchor text, not "click here".
-- **Image alt text.** Every image gets descriptive alt text that includes relevant keywords where natural.
-- **Content length.** Service pages: 800-1500 words. Blog posts: 1500-3000 words. Home page: 500-1000 words.
-- **Schema markup.** Every page gets appropriate JSON-LD. See the checklist for which schema types to use where.
+### Design Rules (from taste-skill)
 
-### shadcn/ui Component Patterns
+These are non-negotiable for every page you build:
 
-When building interactive elements, remember the Astro islands architecture:
+- **Typography:** Use Geist, Satoshi, Outfit, or Cabinet Grotesk. NEVER Inter. Headlines: `text-4xl md:text-6xl tracking-tighter leading-none`.
+- **Colors:** Max 1 accent color, saturation < 80%. No purple/blue AI gradients. Neutral bases (Zinc/Slate).
+- **Layout:** No centered hero when DESIGN_VARIANCE > 4. Use split-screen, asymmetric, or left-aligned layouts.
+- **Cards:** Only when elevation communicates hierarchy. No generic 3-column card layouts.
+- **Spacing:** `min-h-[100dvh]` not `h-screen`. Grid not flexbox math. `max-w-7xl mx-auto`.
+- **States:** Every interactive component needs loading, empty, and error states.
+- **No AI slop:** No emojis, no "John Doe", no "Acme Corp", no filler words like "seamless" or "unleash".
 
-- **Static content** (headings, text, images) — Use `.astro` components, zero JS
-- **Interactive elements** (forms, mobile nav, tabs, accordions) — Use React `.tsx` wrappers with `client:load` or `client:visible`
-- **Context sharing** — Multiple interactive elements that share state must be wrapped in a single React component
+### Astro Islands for Interactivity
 
-Common shadcn components you'll use:
-- `Button`, `Card`, `Input`, `Textarea` — Contact forms
-- `Sheet` / `Dialog` — Mobile navigation
-- `Accordion` — FAQ sections (great for SEO with FAQ schema)
-- `Tabs` — Service comparisons
-- `Table` — Pricing, feature comparisons
+- **Static content** (headings, text, images) — `.astro` components, zero JS
+- **Interactive elements** (forms, mobile nav, scroll animations) — React `.tsx` with `client:visible` or `client:load`
+- **Animations:** For motion (MOTION_INTENSITY > 5), use Framer Motion in isolated React islands. Spring physics: `type: "spring", stiffness: 100, damping: 20`.
+
+Read `references/tailwind-components.md` for component patterns (nav, forms, FAQ, etc.)
 
 ---
 
-## Phase 4: CMS & Database
+## Phase 4: Content Collections & Database
 
-### Keystatic Configuration
+### Astro Content Collections
 
-Read `references/keystatic-setup.md` for the full config. Keystatic manages your file-based content (blog posts, service pages, testimonials). Configure collections that match your site structure.
+Read `references/content-collections.md` for the full setup. Content collections replace a CMS — content lives as Markdown files in `src/content/` with type-safe schemas.
 
-The admin UI lives at `/keystatic` — the user can add/edit content through a visual editor without touching code.
+Define schemas in `src/content/config.ts`:
+- **Blog posts:** title, description, pubDate, image, tags, author, draft
+- **Services:** title, description, icon, order, featured
+- **Testimonials:** name, role, quote, rating
+
+Query collections in pages with `getCollection()` and `getEntry()`.
 
 ### Turso Database (If Requested)
 
-Read `references/turso-setup.md` for the complete setup.
+Read `references/turso-setup.md` for complete setup. Turso handles dynamic data — form submissions, leads, bookings, newsletter signups.
 
-Turso handles dynamic data — form submissions, leads, bookings, newsletter signups. The typical setup:
+1. Create the database client in `src/lib/turso.ts`
+2. Define schemas with Drizzle ORM
+3. Create API routes in `src/pages/api/` for form handling
+4. Build an admin dashboard to view submitted data
 
-1. **Create the database client** in `src/lib/turso.ts`
-2. **Define schemas** with Drizzle ORM
-3. **Create API routes** in `src/pages/api/` for form handling
-4. **Build an admin dashboard** to view submitted data
+### Admin Dashboard (If Database)
 
-### Admin Dashboard
-
-If the user wants a database, build a simple admin dashboard at `/admin` that shows submitted data. This uses:
-- Middleware for basic authentication (check for admin session)
-- shadcn Table, Card, and Badge components for the data display
+Build at `/admin` using React islands with Tailwind-styled tables and cards. Uses:
+- Middleware for basic auth
 - API routes to fetch data from Turso
-- The admin can also access Keystatic at `/keystatic` for content management
-
-The admin dashboard is a React island that fetches data from your API routes and displays it in shadcn Tables. Read `references/turso-setup.md` for the admin dashboard patterns.
+- Clean, tasteful data presentation (per taste-skill rules — no generic card grids)
 
 ---
 
@@ -245,16 +243,15 @@ The admin dashboard is a React island that fetches data from your API routes and
 
 ### Sitemap & Robots.txt
 
-The `@astrojs/sitemap` integration auto-generates your sitemap. Make sure `site` is set in `astro.config.mjs`.
+`@astrojs/sitemap` auto-generates the sitemap. Set `site` in `astro.config.mjs`.
 
-Create a dynamic `robots.txt` at `src/pages/robots.txt.ts`:
+Dynamic `robots.txt` at `src/pages/robots.txt.ts`:
 ```typescript
 import type { APIRoute } from 'astro';
 
 const getRobotsTxt = (siteURL: string) => `User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /keystatic
 Sitemap: ${siteURL}sitemap-index.xml`;
 
 export const GET: APIRoute = ({ site }) => {
@@ -264,37 +261,36 @@ export const GET: APIRoute = ({ site }) => {
 
 ### Deployment Configuration
 
-Read `references/deployment.md` for Vercel and Netlify configs.
+Read `references/deployment.md` for Vercel/Netlify configs.
 
-For sites with API routes or Turso, you need SSR or hybrid rendering:
+For sites with API routes or Turso, use hybrid rendering:
 ```javascript
-// astro.config.mjs
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'hybrid', // Static by default, SSR where needed
+  output: 'hybrid',
   adapter: vercel(),
 });
 ```
 
 ### Final SEO Audit
 
-Before declaring the site done, audit every page against `references/seo-checklist.md`. Check:
-- Every page has unique title, description, canonical URL
+Audit every page against `references/seo-checklist.md`:
+- Unique title, description, canonical URL per page
 - All images have alt text
-- JSON-LD validates (test with Google's Rich Results Test)
+- JSON-LD validates
 - Internal links work
-- Mobile responsive
-- Core Web Vitals pass (Lighthouse score)
+- Mobile responsive (test taste-skill mobile override rules)
 - Sitemap includes all pages
-- robots.txt is correct
+- robots.txt correct
 
 ---
 
 ## Important Notes
 
-- **Always use `output: 'hybrid'`** when the site has API routes, forms, or Keystatic admin. Pure static won't work for these.
-- **shadcn components need `client:load` or `client:visible`** — they won't be interactive without hydration directives.
-- **Keystatic is file-based, not database-based.** It manages content (blog posts, page text). Turso manages dynamic data (form submissions, user data). They serve different purposes.
-- **Research before building.** The niche research phase directly determines the quality of your SEO. Don't rush it.
-- **Real content wins.** Google can detect thin/AI-generated content. Write substantive, helpful content that actually answers the searcher's question. Use the research to understand what people are looking for, then deliver it.
+- **Use `output: 'hybrid'`** when the site has API routes or forms. Pure static otherwise.
+- **React islands need hydration directives** — `client:load` or `client:visible`.
+- **Content collections are file-based.** Blog posts and services live as `.md` files in `src/content/`. Turso is for dynamic data (form submissions) only.
+- **Research before building.** The niche research phase determines SEO quality.
+- **Real content wins.** Write substantive, helpful content. No lorem ipsum.
+- **Premium design always.** Follow the taste-skill rules. Every page should look like a $10k agency build, not generic AI output.

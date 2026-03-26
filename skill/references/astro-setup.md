@@ -24,8 +24,11 @@ cd [project-name]
 # Core
 npx astro add react tailwind sitemap
 
-# CMS
-npm install @keystatic/core @keystatic/astro
+# Typography plugin
+npm install @tailwindcss/typography
+
+# Premium fonts (per taste-skill)
+npm install @fontsource/geist-sans @fontsource/geist-mono
 
 # TypeScript
 npm install @astrojs/check typescript
@@ -44,20 +47,18 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import keystatic from '@keystatic/astro';
 import vercel from '@astrojs/vercel'; // or netlify
 
 export default defineConfig({
   site: 'https://yourdomain.com', // REQUIRED for sitemap & canonical URLs
-  output: 'hybrid', // Static by default, SSR for API routes & Keystatic
+  output: 'hybrid', // Static by default, SSR for API routes if needed
   adapter: vercel(), // or netlify()
   integrations: [
     react(),
     tailwind({ applyBaseStyles: false }),
     sitemap({
-      filter: (page) => !page.includes('/admin') && !page.includes('/keystatic'),
+      filter: (page) => !page.includes('/admin'),
     }),
-    keystatic(),
   ],
   trailingSlash: 'never',
   build: {
